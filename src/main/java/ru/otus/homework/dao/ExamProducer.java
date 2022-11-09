@@ -4,6 +4,6 @@ import ru.otus.homework.domain.Question;
 
 import java.util.List;
 
-public interface ExamRead {
+public interface ExamProducer {
     List<Question> getQuestion();
 }

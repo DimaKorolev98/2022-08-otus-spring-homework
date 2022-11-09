@@ -1,11 +1,12 @@
-package ru.otus.homework.service;
+package ru.otus.homework.service.impl;
 
-import ru.otus.homework.dao.ExamRead;
+import org.springframework.stereotype.Component;
 import ru.otus.homework.domain.Question;
+import ru.otus.homework.service.ExamContentPrinter;
 
 import java.util.List;
-
-public class ExamContentPrinterImpl implements ExamContentPrinter{
+@Component
+public class ExamContentPrinterImpl implements ExamContentPrinter {
 
     @Override
     public void printExamContent(List<Question> examContent) {
