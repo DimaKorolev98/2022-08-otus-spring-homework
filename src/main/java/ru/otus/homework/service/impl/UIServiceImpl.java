@@ -3,6 +3,7 @@ package ru.otus.homework.service.impl;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.config.AppConfig;
+import ru.otus.homework.service.LocaleService;
 import ru.otus.homework.service.UIService;
 
 import java.util.Locale;
@@ -12,16 +13,16 @@ import java.util.Scanner;
 public class UIServiceImpl implements UIService {
 
     private final MessageSource messageSource;
-    private final Locale locale;
+    private final LocaleService localeService;
 
-    public UIServiceImpl(MessageSource messageSource, AppConfig appConfiguration) {
+    public UIServiceImpl(MessageSource messageSource, LocaleService localeService) {
         this.messageSource = messageSource;
-        locale = appConfiguration.getLocale();
+        this.localeService = localeService;
     }
 
     @Override
     public String input(String greeting) {
-        var localeMsg = messageSource.getMessage(greeting, null, greeting, locale);
+        var localeMsg = messageSource.getMessage(greeting, null, greeting, localeService.getLocaleForSession());
 
         Scanner scan = new Scanner(System.in);
         System.out.println(localeMsg);
