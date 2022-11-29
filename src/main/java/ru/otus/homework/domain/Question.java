@@ -1,6 +1,5 @@
 package ru.otus.homework.domain;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,16 +45,13 @@ public class Question {
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
+
     @Override
     public String toString() {
-        return (
-                MessageFormat.format(
-                        "Question'{'id={0}, question=''{1}'', rightAnswer={2}, answers={3}'}'",
-                        id,
-                        question,
-                        rightAnswer,
-                        answers
-                )
-        );
+        return "Question{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", answers=" + answers +
+                '}';
     }
 }
