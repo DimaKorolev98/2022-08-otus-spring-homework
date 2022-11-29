@@ -3,7 +3,6 @@ package ru.otus.homework.repositories;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import ru.otus.homework.config.AppConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,11 +13,13 @@ import java.util.List;
 @Component
 public class DataReaderImpl implements DataReader {
 
-    private final AppConfig appConfig;
+    private String fileName;
 
-    public DataReaderImpl(AppConfig appConfig) {
-        this.appConfig = appConfig;
+    @Value("${questions.fileName}")
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
+
 
     @Override
     public List<String> readData() {
@@ -27,7 +28,7 @@ public class DataReaderImpl implements DataReader {
 
         try {
             var inputStreamReader = new InputStreamReader(
-                    new ClassPathResource(appConfig.getDataPath(), this.getClass().getClassLoader()).getInputStream()
+                    new ClassPathResource(fileName, this.getClass().getClassLoader()).getInputStream()
             );
             var reader = new BufferedReader(inputStreamReader);
             String line;
