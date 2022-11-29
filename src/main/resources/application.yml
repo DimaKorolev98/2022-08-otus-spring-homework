@@ -1,0 +1,3 @@
+application:
+  dataPath: Questions.csv
+  locale: ru_RU

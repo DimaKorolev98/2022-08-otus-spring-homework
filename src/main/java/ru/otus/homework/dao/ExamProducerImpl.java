@@ -1,7 +1,9 @@
 package ru.otus.homework.dao;
 
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import ru.otus.homework.config.AppConfig;
 import ru.otus.homework.domain.Question;
 import ru.otus.homework.repositories.DataReader;
 
@@ -10,16 +12,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 @Component
 public class ExamProducerImpl implements ExamProducer {
 
+
     private final DataReader dataReader;
+    private final MessageSource messageSource;
+    private Locale locale;
 
-    public ExamProducerImpl(DataReader dataReader) {
+    public ExamProducerImpl(DataReader dataReader, MessageSource messageSource, AppConfig appConfig) {
         this.dataReader = dataReader;
+        this.messageSource = messageSource;
+        this.locale = appConfig.getLocale();
     }
-
     @Override
     public List<Question> getQuestion() {
         var examContent = new ArrayList<Question>();
@@ -34,10 +41,10 @@ public class ExamProducerImpl implements ExamProducer {
         return examContent;
     }
 
-    private Question parseQuestionsString(String line){
+    private Question parseQuestionsString(String examCode){
         var question = new Question();
+        String line = messageSource.getMessage(examCode, null, null, locale);
         var scanner = new Scanner(line);
-
 
         int index = 0 ;
                 scanner.useDelimiter(",");

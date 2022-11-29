@@ -16,8 +16,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudent() {
-        var firstName = uiService.input("enter a first name");
-        var lastName = uiService.input("enter a last name");
+        var firstName = uiService.input("input.firstname");
+        var lastName = uiService.input("input.lastname");
         return new Student(firstName, lastName);
     }
 }

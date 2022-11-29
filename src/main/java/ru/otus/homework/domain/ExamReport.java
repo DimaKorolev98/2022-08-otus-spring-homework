@@ -3,12 +3,14 @@ package ru.otus.homework.domain;
 public class ExamReport {
 
     private final Student student;
+    private final String reportPattern;
     private int rightAnswerCount;
     private int wrongAnswerCount;
 
-       public ExamReport(Student student) {
+       public ExamReport(Student student, String reportPattern) {
         this.student = student;
         this.rightAnswerCount = 0;
+        this.reportPattern = reportPattern;
     }
 
     public void incrementRight() {
@@ -21,7 +23,7 @@ public class ExamReport {
 
     public String formatReport() {
         return String.format(
-                "FirstName: %s LastName: %s Right Answers: %d Wrong Answers: %d",
+                reportPattern,
                 student.getFirstName(),
                 student.getLastName(),
                 rightAnswerCount,
