@@ -2,68 +2,98 @@ package ru.otus.homework.Shell;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework.dao.AuthorDao;
 import ru.otus.homework.dao.BookDao;
+import ru.otus.homework.dao.CommentDao;
 import ru.otus.homework.dao.GenreDao;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
 import ru.otus.homework.domain.Genre;
+
+import javax.transaction.Transactional;
 
 @ShellComponent
 public class BookCRUD {
     private final BookDao bookDao;
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
-    Book book = new Book();
+    private final CommentDao commentDao;
+    Author author;
+    Genre genre;
 
-    public BookCRUD(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao) {
+    public BookCRUD(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao, CommentDao commentDao) {
         this.bookDao = bookDao;
         this.authorDao = authorDao;
         this.genreDao = genreDao;
+        this.commentDao = commentDao;
     }
 
     @ShellMethod
     public void findAll() {
-        System.out.println(bookDao.findAll().toString());
+        System.out.println(bookDao.getAll());
     }
 
     @ShellMethod
-    public void delete(long id) {
-        bookDao.delete(id);
-    }
-    @ShellMethod
-    public void insert(String title, String author, String genre){
-        book.setTitle(title);
-        book.setAuthor(authorDao.findByName(author));
-        book.setGenre(genreDao.findByName(genre));
-        bookDao.insert(book);
+    @Transactional
+    public void addAuthor(String authorName){
+        authorDao.save(new Author(authorName));
     }
 
     @ShellMethod
-    public void update (long id, String title, String author, String genre){
-        book.setId(id);
+    @Transactional
+    public void addBook(String title, String authorName, String genreName){
+        Book book = new Book();
         book.setTitle(title);
-        book.setAuthor(authorDao.findByName(author));
-        book.setGenre(genreDao.findByName(genre));
-        bookDao.update(book);
+        var author = authorDao.findByName(authorName);
+        if (author == null) {
+            author = authorDao.save(new Author(authorName));
+        }
+        book.setAuthor(author);
+
+        var genre = genreDao.findByName(genreName);
+        if(genre == null) {
+            genre = genreDao.save(new Genre(genreName));
+        }
+        book.setGenre(genre);
+
+        bookDao.save(book);
     }
     @ShellMethod
-    public void newAuthor(long id, String authorName){
-        book.setId(id);
-        book.setAuthor(authorDao.findByName(authorName));
-        bookDao.setNewAuthor(book);
+    @Transactional
+    public void addComment(String title , String text){
+        Comment comment = new Comment();
+        comment.setText(text);
+        var book = bookDao.findByName(title);
+        if(book == null){
+            System.out.println("Нет такой книги: " + title);
+        } else {
+            comment.setBook(book);
+            commentDao.save(comment);
+        }
     }
+
     @ShellMethod
-    public void newTitle(long id, String title){
-        book.setId(id);
-        book.setTitle(title);
-        bookDao.setNewTitle(book);
+    public void findAllAuthors() {
+        System.out.println(authorDao.getAll().toString());
     }
+
     @ShellMethod
-    public void newGenre(long id, String genreName){
-        book.setId(id);
-        book.setGenre(genreDao.findByName(genreName));
-        bookDao.setNewGenre(book);
+    public void findAllGenre() {
+        System.out.println(genreDao.getAll().toString());
     }
+
+    @ShellMethod
+    @Transactional
+    public void delete(String title) {
+        bookDao.delete(bookDao.findByName(title).getId());
+    }
+
+    @ShellMethod
+    @Transactional
+    public void deleteComment(String id){
+        commentDao.delete(Long.valueOf(id));
+    }
+
+
 }

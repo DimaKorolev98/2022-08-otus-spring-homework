@@ -1,36 +1,38 @@
 package ru.otus.homework.domain;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name ="authors")
 public class Author {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name",unique = true)
     private String name;
 
-    public Author(long id, String name) {
-        this.id = id;
+    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Book> books;
+
+    public Author(String name){
         this.name = name;
     }
 
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return id + " " + name + ". Количество книг: " + books.size() + "\n";
     }
+
 }
