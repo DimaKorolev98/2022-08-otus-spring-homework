@@ -22,9 +22,11 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
+
+
     @Override
     public void delete(Book book) {
-        bookRepository.delete(book);
+    bookRepository.delete(book);
     }
 
     @Override
@@ -35,12 +37,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findByTitle(String title) {
-        return bookRepository.findByTitle(title) ;
-    }
-
-    @Override
-    public void deleteAll() {
-        bookRepository.deleteAll();
+        return bookRepository.findByTitle(title);
     }
 }
 

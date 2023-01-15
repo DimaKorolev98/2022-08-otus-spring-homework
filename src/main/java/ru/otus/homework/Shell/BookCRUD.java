@@ -10,6 +10,7 @@ import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.domain.Genre;
+import ru.otus.homework.services.impl.BookServiceImpl;
 
 import javax.transaction.Transactional;
 
@@ -30,6 +31,11 @@ public class BookCRUD {
     @ShellMethod
     public void findAll() {
         System.out.println(bookDao.findAll());
+    }
+
+    @ShellMethod
+    public void deleteAuthor(String authorName){
+        authorDao.delete(authorDao.findByName(authorName));
     }
 
     @ShellMethod
@@ -81,8 +87,7 @@ public class BookCRUD {
     }
 
     @ShellMethod
-    public void delete(String title) {
+    public void deleteBook(String title) {
         bookDao.delete(bookDao.findByTitle(title));
     }
-
 }
