@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
+@Service
 public class GenreDao implements LibDao<Genre> {
 
     @PersistenceContext
@@ -45,8 +46,8 @@ public class GenreDao implements LibDao<Genre> {
     }
 
     @Override
-    public void delete(long id) {
-        var q= entityManager.createQuery("delete from Genre g where g.id = :id").setParameter("id", id).executeUpdate();
+    public void delete(Genre genre) {
+        entityManager.remove(genre);
     }
 
     @Override

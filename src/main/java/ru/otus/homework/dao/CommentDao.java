@@ -1,6 +1,7 @@
 package ru.otus.homework.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Comment;
 
@@ -10,7 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
-@Repository
+@Service
 public class CommentDao implements LibDao<Comment> {
 
     @PersistenceContext
@@ -32,8 +33,8 @@ public class CommentDao implements LibDao<Comment> {
     }
 
     @Override
-    public void delete(long id) {
-        entityManager.createQuery("delete from Comment c where c.id = :id").executeUpdate();
+    public void delete(Comment comment) {
+        entityManager.remove(comment);
     }
 
     @Override

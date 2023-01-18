@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 
@@ -18,8 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
-
+@Service
 public class AuthorDao implements LibDao<Author> {
 
 
@@ -42,15 +42,19 @@ public class AuthorDao implements LibDao<Author> {
     }
 
     @Override
-    public void delete(long id) {
-        entityManager.createQuery("delete from Author a where a.id = :id").executeUpdate();
+    public void delete(Author author) {
+        entityManager.remove(author);
 
     }
 
     @Override
     public List<Author> getAll() {
         return entityManager.createQuery("select a from Author a", Author.class).getResultList();
+    }
 
+
+    public List<Author> getAllWithBooks() {
+        return entityManager.createQuery("select a from Author a LEFT JOIN FETCH a.books", Author.class).getResultList();
     }
 
 
@@ -61,7 +65,7 @@ public class AuthorDao implements LibDao<Author> {
         query.setParameter("authorName", authorName);
         try {
             return query.getSingleResult();
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             return null;
         }
     }

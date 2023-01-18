@@ -23,16 +23,18 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Comment> comments;
+//    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private List<Comment> comments;
+
+
     public Book(String title) {
         this.title = title;
     }
@@ -45,7 +47,7 @@ public class Book {
                 ". Автор: " + author.getName()
                 +
                 ". Жанр: " + genre.getName()
-                + ". Коментарии:" + comments.toString()
+//                + ". Коментарии:" + comments.toString()
                 + "\n";
     }
 

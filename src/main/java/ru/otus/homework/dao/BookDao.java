@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Repository
+@Service
 public class BookDao implements LibDao<Book>{
 
 
@@ -49,8 +50,8 @@ public class BookDao implements LibDao<Book>{
     }
 
     @Override
-    public void delete(long id) {
-        entityManager.createQuery("delete from Book b where b.id = :id").setParameter("id", id).executeUpdate();
+    public void delete(Book book) {
+        entityManager.remove(book);
     }
 
     @Override

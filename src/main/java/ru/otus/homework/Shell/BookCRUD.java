@@ -36,12 +36,6 @@ public class BookCRUD {
 
     @ShellMethod
     @Transactional
-    public void addAuthor(String authorName){
-        authorDao.save(new Author(authorName));
-    }
-
-    @ShellMethod
-    @Transactional
     public void addBook(String title, String authorName, String genreName){
         Book book = new Book();
         book.setTitle(title);
@@ -59,41 +53,18 @@ public class BookCRUD {
 
         bookDao.save(book);
     }
-    @ShellMethod
-    @Transactional
-    public void addComment(String title , String text){
-        Comment comment = new Comment();
-        comment.setText(text);
-        var book = bookDao.findByName(title);
-        if(book == null){
-            System.out.println("Нет такой книги: " + title);
-        } else {
-            comment.setBook(book);
-            commentDao.save(comment);
-        }
-    }
-
-    @ShellMethod
-    public void findAllAuthors() {
-        System.out.println(authorDao.getAll().toString());
-    }
-
-    @ShellMethod
-    public void findAllGenre() {
-        System.out.println(genreDao.getAll().toString());
-    }
 
     @ShellMethod
     @Transactional
-    public void delete(String title) {
-        bookDao.delete(bookDao.findByName(title).getId());
+    public void deleteBook(String title) {
+        bookDao.delete(bookDao.findByName(title));
     }
 
-    @ShellMethod
-    @Transactional
-    public void deleteComment(String id){
-        commentDao.delete(Long.valueOf(id));
-    }
+//    @ShellMethod
+//    @Transactional
+//    public void deleteComment(String id){
+//        commentDao.delete(commentDao.);
+//    }
 
 
 }

@@ -19,13 +19,13 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
 
     @Override
     public String toString() {
-        return "[" + id + "]"+ " " +text + ".";
+        return "[" + id + "]"+ " " +text + "." + " Книга: " + book.getTitle();
     }
 }
