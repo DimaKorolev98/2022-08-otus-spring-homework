@@ -1,6 +1,6 @@
 spring:
-#  jpa:
-#    defer-datasource-initialization: true
+  banner:
+    location: banner.txt
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -15,3 +15,18 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: true
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+    properties:
+      javax:
+        persistence:
+          validation:
+            mode: none
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        ddl-auto: create-drop
